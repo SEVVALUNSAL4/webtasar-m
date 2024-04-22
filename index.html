@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Kişisel Web Sitesi</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+    <style>
+        .box {
+            position: relative;
+            text-align: center;
+        }
+        #profile-image {
+            border-radius: 50%;
+            width: 200px;
+            height: 200px;
+            transition: 0.5s;
+            cursor: pointer;
+        }
+        #profile-image:hover {
+            transform: scale(1.2);
+        }
+        #paragraph-container {
+            margin-top: 20px;
+        }
+        #clock {
+            position: fixed;
+
+            top: 10px;
+
+            right: 10px;
+
+            color: #fff;
+
+            font-size: 18px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        ul li {
+            display: inline-block;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <img id="profile-image" src="WhatsApp Görsel 2024-02-12 saat 19.13.03_15f82724.jpg">
+        <h1>Elektrik elektronik mühendisliği</h1>
+        <button id="add-paragraph-button">Bilgiler</button>
+        <div id="paragraph-container"></div>
+        <h2 id="clock"></h2>
+        <p></p>
+        <!-- Tek bir iletişim formu -->
+        <form id="contact-form">
+            <input type="text" name="name" placeholder="Adınız">
+            <input type="email" name="email" placeholder="E-posta Adresiniz">
+            <textarea name="message" placeholder="Mesajınız"></textarea>
+            <button type="submit">Gönder</button>
+        </form>
+        <div id="contact-info"></div>
+        <ul>
+            <li><a href="#"><i class="fab fa-facebook"></i></a></li>
+            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+            <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+            <li><a href="#"><i class="fab fa-github"></i></a></li>
+        </ul>
+    </div>
+
+    <script>
+        // Resim büyütme/küçültme işlevi
+        const profileImage = document.getElementById('profile-image');
+        let isZoomed = false;
+
+        profileImage.addEventListener('click', function() {
+            if (isZoomed) {
+                this.style.transform = 'scale(1)';
+            } else {
+                this.style.transform = 'scale(1.2)';
+            }
+            isZoomed = !isZoomed;
+        });
+
+        // Paragraf ekleme işlevi
+        const addParagraphButton = document.getElementById('add-paragraph-button');
+        const paragraphContainer = document.getElementById('paragraph-container');
+
+        addParagraphButton.addEventListener('click', function() {
+            const newParagraph = document.createElement('p');
+            newParagraph.textContent = 'Şevval Ünsal.Selçuk Üniversitesi 4.sınıf öğrencisiyim.22 yaşındayım.Ankarada yaşıyorum';
+            paragraphContainer.appendChild(newParagraph);
+        });
+
+        // Saat göstergesi işlevi
+        function updateClock() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            const timeString = `${hours}:${minutes}:${seconds}`;
+            document.getElementById('clock').textContent = timeString;
+        }
+
+        // Saati güncellemek için her saniyede bir fonksiyonu çağırın
+        setInterval(updateClock, 1000);
+
+        // Sayfa yüklendiğinde saat hemen güncellensin
+        updateClock();
+
+        // İletişim formunu seç
+        const contactForm = document.getElementById('contact-form');
+
+        // Form gönderildiğinde bu işlevi çalıştır
+        contactForm.addEventListener('submit', function(event) {
+            // Formun varsayılan davranışını engelle (sayfayı yenileme)
+            event.preventDefault();
+
+            // Formdaki bilgileri al
+            const formData = new FormData(contactForm);
+            const name = formData.get('name');
+            const email = formData.get('email');
+            const message = formData.get('message');
+
+            // Alınan bilgileri görüntüle
+            const contactInfo = document.getElementById('contact-info');
+            contactInfo.innerHTML = `
+                <h3>Gönderilen Bilgiler:</h3>
+                <p><strong>Ad:</strong> ${name}</p>
+                <p><strong>E-posta:</strong> ${email}</p>
+                <p><strong>Mesaj:</strong> ${message}</p>`;
+        });
+    </script>
+</body>
+</html>
